@@ -1,9 +1,9 @@
 import React from 'react';
 
-const BreadBotton = props => (
+const BreadBottom = props => (
     <div className="BreadBottom">
 
     </div>
 );
 
-export default BreadBotton;
+export default BreadBottom;
