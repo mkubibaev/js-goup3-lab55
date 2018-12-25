@@ -21,6 +21,11 @@ body {
 
 .constructor-left, .constructor-right {
   flex-basis: 50%;
+  text-align: center;
+}
+
+.constructor-right {
+  text-align: center;
 }
 
 .ingr-wrap {
@@ -32,35 +37,42 @@ body {
   border-bottom: 1px solid #bbb;
 }
 
-.ingr-wrap .ingr-img {
+.ingr-wrap .ingr-icon img {
+  display: block;
   width: 80px;
   height: 80px;
-  cursor: pointer;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+  margin-bottom: 5px;
 }
 
-.ingr-wrap .ingr-img img {
+.ingr-wrap .ingr-icon span {
   display: block;
-  width: 100%;
-  height: auto;
+  font-size: 12px;
 }
 
-.ingr-wrap .ingr-delete {
-  height: 30px;
-  line-height: 30px;
-  padding: 0 15px;
+.ingr-wrap button {
+  height: 34px;
+  width: 34px;
+  line-height: 34px;
   border-radius: 2px;
   border: none;
   text-align: center;
   cursor: pointer;
   outline: none;
+  font-weight: bold;
+  font-size: 18px;
   color: #fff;
-  background: #E57373;
+  margin-right: 3px;
   box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
 }
 
-.ingr-wrap .ingr-delete:active {
+.ingr-wrap button:active {
   box-shadow: none;
+}
+.ingr-wrap button.ingr-add {
+  background: #2bbbad;
+}
+.ingr-wrap button.ingr-delete {
+  background: #E57373;
 }
 
 .BreadBottom {

@@ -13,11 +13,13 @@ import IngrInfo from './components/IngrInfo/IngrInfo';
 class App extends Component {
 	state = {
 		ingredients: [
-			{name: 'Salad', count: 1},
-			{name: 'Cheese', count: 3},
-			{name: 'Meat', count: 2},
-			{name: 'Bacon', count: 1},
-		]
+			{name: 'Salad', count: 0},
+			{name: 'Cheese', count: 0},
+			{name: 'Meat', count: 0},
+			{name: 'Bacon', count: 0},
+		],
+		startPrice: 20,
+		totalPrice: 0
 	};
 
 	showIngredients = (ingr, count) => {
@@ -50,7 +52,7 @@ class App extends Component {
 	};
 
 	addIngredient = (ingr) => {
-		let ingredients = [...this.state.ingredients];
+		const ingredients = [...this.state.ingredients];
 
 		for (let i = 0; i < ingredients.length; i++) {
 			if (ingredients[i].name === ingr) {
@@ -59,31 +61,101 @@ class App extends Component {
 		}
 
 		this.setState({ingredients});
+		this.getTotalPrice();
 	};
 
 	removeIngredient = (ingr) => {
-		let ingredients = [...this.state.ingredients];
+		const ingredients = [...this.state.ingredients];
 
 		for (let i = 0; i < ingredients.length; i++) {
 			if (ingredients[i].name === ingr) {
 				ingredients[i].count--;
+
+				if (ingredients[i].count < 0) {
+					ingredients[i].count = 0;
+				}
 			}
 		}
 
 		this.setState({ingredients});
+		this.getTotalPrice();
 	};
 
+	setIngredientsCount = () => {
+		const ingredients = [...this.state.ingredients];
+
+		for (let i = 0; i < ingredients.length; i++) {
+			for (let j = 0; j < ingredientList.length; j++) {
+				if (ingredients[i].name === ingredientList[j].name) {
+					ingredients[i].id = ingredientList[j].id;
+					ingredients[i].price = ingredientList[j].price;
+					ingredients[i].image = ingredientList[j].image;
+				}
+			}
+		}
+		this.setState({ingredients});
+	};
+
+	getTotalPrice = () => {
+		const ingredients = [...this.state.ingredients];
+		const startPrice = this.state.startPrice;
+		let totalPrice = 0;
+
+		for (let i = 0; i < ingredients.length; i++) {
+			for (let j = 0; j < ingredientList.length; j++) {
+				if (ingredients[i].name === ingredientList[j].name) {
+					let ingrPrice = ingredients[i].count * ingredientList[j].price;
+					totalPrice += ingrPrice;
+				}
+			}
+		}
+
+		if (totalPrice > 0) {
+			totalPrice += startPrice;
+		}
+
+		this.setState({totalPrice});
+	};
+
+	componentDidMount() {
+		this.setIngredientsCount();
+	}
+
 	render() {
+		let BurgerImg = null;
+
+		if (this.state.totalPrice > 0) {
+			BurgerImg = (
+				<div className="constructor-right">
+					<Burger>
+						<BreadTop />
+						{this.state.ingredients.map((ingr) => {
+							return this.showIngredients(ingr.name, ingr.count);
+						})}
+						<BreadBottom />
+					</Burger>
+					<p>Prise: {this.state.totalPrice}</p>
+				</div>
+			)
+		} else {
+			BurgerImg = (
+				<div className="constructor-right">
+					<p>Pick ingredient !</p>
+				</div>
+			)
+		}
+
 		return (
 			<div className="container">
 				<div className="constructor">
 					<div className="constructor-left">
-						{ingredientList.map((ingr) => (
+						{this.state.ingredients.map((ingr) => (
 							<IngrInfo
 								key={ingr.id}
 								name={ingr.name}
 								image={ingr.image}
-								count={ingr.price}
+								count={ingr.count}
+								price={ingr.price}
 								onAdd={this.addIngredient.bind(this, ingr.name)}
 								onRemove={this.removeIngredient.bind(this, ingr.name)}
 							/>
@@ -92,15 +164,7 @@ class App extends Component {
 
 
 					</div>
-					<div className="constructor-right">
-						<Burger>
-							<BreadTop />
-								{this.state.ingredients.map((ingr) => {
-									return this.showIngredients(ingr.name, ingr.count);
-								})}
-							<BreadBottom />
-						</Burger>
-					</div>
+					{BurgerImg}
 				</div>
 			</div>
 		);
