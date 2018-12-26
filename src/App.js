@@ -6,17 +6,20 @@ import Salad from './components/Salad/Salad';
 import Cheese from './components/Cheese/Cheese';
 import Meat from './components/Meat/Meat';
 import Bacon from './components/Bacon/Bacon';
-import ingredientList from './lib/ingredient-list';
 import IngrInfo from './components/IngrInfo/IngrInfo';
+import saladImage from "./assets/images/salad.png";
+import cheeseImage from "./assets/images/cheese.png";
+import meatImage from "./assets/images/meat.png";
+import baconImage from "./assets/images/bacon.png";
 
 
 class App extends Component {
 	state = {
 		ingredients: [
-			{name: 'Salad', count: 0},
-			{name: 'Cheese', count: 0},
-			{name: 'Meat', count: 0},
-			{name: 'Bacon', count: 0},
+			{id: 1, name: 'Salad', price: 5, image: saladImage, count: 0},
+			{id: 2, name: 'Cheese', price: 20, image: cheeseImage, count: 0},
+			{id: 3, name: 'Meat', price: 50, image: meatImage, count: 0},
+			{id: 4, name: 'Bacon', price: 30, image: baconImage, count: 0},
 		],
 		startPrice: 20,
 		totalPrice: 0
@@ -81,32 +84,15 @@ class App extends Component {
 		this.getTotalPrice();
 	};
 
-	setIngredientsCount = () => {
-		const ingredients = [...this.state.ingredients];
-
-		for (let i = 0; i < ingredients.length; i++) {
-			for (let j = 0; j < ingredientList.length; j++) {
-				if (ingredients[i].name === ingredientList[j].name) {
-					ingredients[i].id = ingredientList[j].id;
-					ingredients[i].price = ingredientList[j].price;
-					ingredients[i].image = ingredientList[j].image;
-				}
-			}
-		}
-		this.setState({ingredients});
-	};
-
 	getTotalPrice = () => {
 		const ingredients = [...this.state.ingredients];
 		const startPrice = this.state.startPrice;
 		let totalPrice = 0;
 
 		for (let i = 0; i < ingredients.length; i++) {
-			for (let j = 0; j < ingredientList.length; j++) {
-				if (ingredients[i].name === ingredientList[j].name) {
-					let ingrPrice = ingredients[i].count * ingredientList[j].price;
-					totalPrice += ingrPrice;
-				}
+			if (ingredients[i].count) {
+				let ingrPrice = ingredients[i].count * ingredients[i].price;
+				totalPrice += ingrPrice;
 			}
 		}
 
@@ -116,10 +102,6 @@ class App extends Component {
 
 		this.setState({totalPrice});
 	};
-
-	componentDidMount() {
-		this.setIngredientsCount();
-	}
 
 	render() {
 		let BurgerImg = null;
@@ -134,7 +116,7 @@ class App extends Component {
 						})}
 						<BreadBottom />
 					</Burger>
-					<p>Prise: {this.state.totalPrice}</p>
+					<p>Price: {this.state.totalPrice} c</p>
 				</div>
 			)
 		} else {
@@ -159,10 +141,7 @@ class App extends Component {
 								onAdd={this.addIngredient.bind(this, ingr.name)}
 								onRemove={this.removeIngredient.bind(this, ingr.name)}
 							/>
-
 						))}
-
-
 					</div>
 					{BurgerImg}
 				</div>
