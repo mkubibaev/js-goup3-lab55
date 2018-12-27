@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import Burger from './components/BurgerWrap/BurgerWrap';
 import BreadTop from './components/BreadTop/BreadTop';
 import BreadBottom from './components/BreadBottom/BreadBottom';
-import Salad from './components/Salad/Salad';
-import Cheese from './components/Cheese/Cheese';
-import Meat from './components/Meat/Meat';
-import Bacon from './components/Bacon/Bacon';
+import Fill from './components/Fill/Fill';
 import IngrInfo from './components/IngrInfo/IngrInfo';
 import saladImage from "./assets/images/salad.png";
 import cheeseImage from "./assets/images/cheese.png";
@@ -25,33 +22,14 @@ class App extends Component {
 		totalPrice: 0
 	};
 
-	showIngredients = (ingr, count) => {
+	showIngredients = (ingrName, count) => {
 		const result = [];
 
-		switch (ingr) {
-			case 'Salad':
-				for (let i = 0; i < count; i++) {
-					result.push(<Salad key={'salad' + i}/>);
-				}
-				return result;
-			case 'Cheese':
-				for (let i = 0; i < count; i++) {
-					result.push(<Cheese key={'cheese' + i}/>);
-				}
-				return result;
-			case 'Meat':
-				for (let i = 0; i < count; i++) {
-					result.push(<Meat key={'meat' + i}/>);
-				}
-				return result;
-			case 'Bacon':
-				for (let i = 0; i < count; i++) {
-					result.push(<Bacon key={'bacon' + i}/>);
-				}
-				return result;
-			default:
-				console.error('Wrong ingredient!');
-		}
+        for (let i = 0; i < count; i++) {
+            result.push(<Fill name={ingrName} key={ingrName + i}/>);
+        }
+
+        return result;
 	};
 
 	addIngredient = (ingr) => {
@@ -111,9 +89,9 @@ class App extends Component {
 				<div className="constructor-right">
 					<Burger>
 						<BreadTop />
-						{this.state.ingredients.map((ingr) => {
-							return this.showIngredients(ingr.name, ingr.count);
-						})}
+                            {this.state.ingredients.map((ingr) => {
+                                return this.showIngredients(ingr.name, ingr.count);
+                            })}
 						<BreadBottom />
 					</Burger>
 					<p>Price: {this.state.totalPrice} c</p>
