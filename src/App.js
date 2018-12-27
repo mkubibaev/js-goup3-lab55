@@ -41,8 +41,7 @@ class App extends Component {
 			}
 		}
 
-		this.setState({ingredients});
-		this.getTotalPrice();
+		this.setState({ingredients}, this.getTotalPrice());
 	};
 
 	removeIngredient = (ingr) => {
@@ -58,8 +57,7 @@ class App extends Component {
 			}
 		}
 
-		this.setState({ingredients});
-		this.getTotalPrice();
+		this.setState({ingredients}, this.getTotalPrice());
 	};
 
 	getTotalPrice = () => {
